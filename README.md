@@ -7,7 +7,7 @@ mvn clean package jetty:run
 ````
 and wait for the server to start up.
 
-## Issue: [Ajax update fails due to invalid characters in response XML](https://github.com/eclipse-ee4j/mojarra/issues/4516)
+## Issue: Ajax update fails due to invalid characters in response XML
 
 Open the url <http://localhost:8080/index.xhtml>.
 
