@@ -1,5 +1,5 @@
-# mojarra-ajax
-Minimal demo to reproduce some issues with mojarra partial update.
+# myfaces-ajax
+Minimal demo to reproduce some issues with myfaces partial update.
 
 To reproduce just run
 ````bash
