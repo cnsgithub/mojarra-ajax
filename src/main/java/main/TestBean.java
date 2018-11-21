@@ -2,6 +2,11 @@ package main;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.UUID;
 import java.util.regex.Pattern;
 
@@ -47,11 +52,17 @@ public class TestBean {
 			illegal.append(c);
 		}
 		var out =  illegal.toString();
-		System.out.println(out);
+		System.out.println("Illegal XML characters: " + out);
 		return out;
 	}
 
-	public static void main(String[] args) {
-		System.out.println(getIllegalXmlChars().length());
+	// creates the illegal-xml-chars file that can be used as input
+	public static void main(String[] args) throws IOException {
+		var br = Files.newOutputStream(Paths.get("./illegal-xml-chars.txt"));
+		var bytes = getIllegalXmlChars().getBytes(StandardCharsets.UTF_8);
+		for (byte aByte : bytes) {
+			br.write(aByte);
+		}
+		br.close();
 	}
 }
