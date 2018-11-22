@@ -7,7 +7,7 @@ mvn clean package jetty:run
 ````
 and wait for the server to start up.
 
-## Issue: Ajax update fails due to invalid characters in response XML
+## Issue: [Ajax update fails due to invalid characters in response XML (DoS)](https://issues.apache.org/jira/browse/MYFACES-4266)
 
 Open the url <http://localhost:8080/index.xhtml>.
 
