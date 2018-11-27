@@ -47,6 +47,8 @@ class IllegalXmlCharactersResponseWrapper extends HttpServletResponseWrapper {
 }
 
 class IllegalXmlCharactersResponseWriter extends PrintWriter {
+    private static final char[] EMPTY_CHAR_ARRAY = new char[0];
+    private static final char BLANK_CHAR = ' ';
 
     public IllegalXmlCharactersResponseWriter(Writer out) {
         super(out);
@@ -54,46 +56,75 @@ class IllegalXmlCharactersResponseWriter extends PrintWriter {
 
     @Override
     public void write(int c) {
-        super.write(xmlEncode((char) c));
-    }
-
-    @Override
-    public void write(char[] buf, int off, int len) {
-        super.write(xmlEncode(buf), off, len);
-    }
-
-    @Override
-    public void write(char[] buf) {
-        super.write(xmlEncode(buf));
-    }
-
-    @Override
-    public void write(String s, int off, int len) {
-        super.write(xmlEncode(s.toCharArray()), off, len);
-    }
-
-    @Override
-    public void write(String s) {
-        super.write(xmlEncode(s.toCharArray()));
-    }
-
-    private char[] xmlEncode(char[] ca) {
-        for (int i = 0; i < ca.length; i++) {
-            ca[i] = xmlEncode(ca[i]);
+        if (isInvalidChar((char) c)) {
+            super.write((int) BLANK_CHAR);
         }
-        return ca;
+        else {
+            super.write(c);
+        }
     }
 
-    private char xmlEncode(char c) {
+    @Override
+    public void write(char[] cbuf, int off, int len) {
+        super.write(encodeCharArray(cbuf, off, len), off, len);
+    }
+
+    @Override
+    public void write(String str, int off, int len) {
+        super.write(encodeString(str, off, len), off, len);
+    }
+
+    private static String encodeString(String str, int off, int len) {
+        if (str == null) {
+            return null;
+        }
+
+        boolean containsInvalidChar = false;
+        char[] encodedCharArray = EMPTY_CHAR_ARRAY;
+
+        for (int i = off; i < off + len; i++) {
+            if (isInvalidChar(str.charAt(i))) {
+                if (!containsInvalidChar) {
+                    containsInvalidChar = true;
+                    encodedCharArray = str.toCharArray();
+                }
+                encodedCharArray[i] = BLANK_CHAR;
+            }
+        }
+
+        if (containsInvalidChar) {
+            return String.valueOf(encodedCharArray);
+        }
+
+        return str;
+    }
+
+    private static char[] encodeCharArray(char[] cbuf, int off, int len) {
+        if (cbuf == null) {
+            return null;
+        }
+
+        for (int i = off; i < off + len; i++) {
+            if (isInvalidChar(cbuf[i])) {
+                cbuf[i] = BLANK_CHAR;
+            }
+        }
+        return cbuf;
+    }
+
+    private static boolean isInvalidChar(char c) {
         if (Character.isSurrogate(c)) {
-            return ' ';
+            return true;
         }
-        if (c == '\u0009' || c == '\n' || c == '\r')
-            return c;
-        if (c > '\u0020' && c < '\uD7FF')
-            return c;
-        if (c > '\uE000' && c < '\uFFFD')
-            return c;
-        return ' ';
+        if (c == '\u0009' || c == '\n' || c == '\r') {
+            return false;
+        }
+        if (c > '\u0020' && c < '\uD7FF') {
+            return false;
+        }
+        if (c > '\uE000' && c < '\uFFFD') {
+            return false;
+        }
+        return true;
     }
 }
