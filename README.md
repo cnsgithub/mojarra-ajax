@@ -13,3 +13,6 @@ Open the url <http://localhost:8080/index.xhtml>.
 
 It also works for user supplied inputs, open <http://localhost:8080/input.xhtml> and enter the contents of the ``illegal-xml-chars.txt`` file.
 
+Workaround is available at https://github.com/cnsgithub/mojarra-ajax/blob/master/src/main/java/main/IllegalXmlCharactersFilter.java.
+
+Pull request https://github.com/apache/myfaces/pull/27 has been merged into all MyFaces branches. Stay tuned for new release versions.
