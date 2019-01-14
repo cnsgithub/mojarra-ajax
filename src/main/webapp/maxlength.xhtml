@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/jsf/core ">
+<h:head/>
+<h:body>
+    <h:form>
+        <h:inputText value="#{testBean.input}" maxlength="10" />
+
+        <h:commandButton type="submit" value="Submit" />
+        <h:commandButton type="submit" value="Hack" onclick="document.querySelector('input[maxlength=&quot;10&quot;]').value='a'.repeat(100);" />
+
+        Characters written to model: #{testBean.input.length()}
+    </h:form>
+</h:body>
+</html> 
